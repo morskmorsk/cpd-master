@@ -1,0 +1,15 @@
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+.navbar-brand {
+    font-weight: 500;
+}
+
+.nav-link {
+    font-weight: 300;
+}
+
+.container {
+    margin-top: 30px;
+}
