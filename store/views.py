@@ -63,7 +63,7 @@ def edit_customer(request, customer_id):
             return redirect('customer_detail', customer_id=customer.id)
     else:
         form = CustomerForm(instance=customer)
-    return render(request, 'store/edit_customer.html', {'form': form})
+    return render(request, 'store/edit_customer.html', {'form': form, 'customer': customer})
 
 
 def add_work_order(request, customer_id):

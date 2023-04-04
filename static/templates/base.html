@@ -2,7 +2,6 @@
 <html lang="en">
 
 {% load static %}
-{% load widget_tweaks %}
 {% get_static_prefix as STATIC_PREFIX %}
 
 <head>
@@ -29,6 +28,9 @@
                     {% if user.is_authenticated %}
                         <li class="nav-item">
                             <a class="nav-link text-white" href="#">Welcome, {{ user.username }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="{% url 'search_customer' %}">Store</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-white" href="{% url 'logout' %}">Logout</a>

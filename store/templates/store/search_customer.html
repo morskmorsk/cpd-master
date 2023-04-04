@@ -1,10 +1,16 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2>Search Customer</h2>
-<form method="post">
-    {% csrf_token %}
-    {{ search_form.as_p }}
-    <button type="submit">Search</button>
-</form>
+    <div class="container">
+        <h2>Search Customer</h2>
+        <br>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                {{ search_form.as_p }}
+            </div>
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+    </div>
 {% endblock %}
+
