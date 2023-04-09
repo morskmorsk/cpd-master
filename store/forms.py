@@ -2,24 +2,25 @@ from django import forms
 from .models import Customer, WorkOrder
 from django.core.exceptions import ValidationError
 import phonenumbers
-from phonenumber_field.formfields import PhoneNumberField
-
-
-from phonenumbers import PhoneNumber
+from phonenumbers.phonenumberutil import NumberParseException
 
 
 class SearchCustomerForm(forms.Form):
-    phone = PhoneNumberField(required=True, label='Phone Number')
+    phone = forms.CharField(max_length=20, label='Phone Number')
 
     def clean_phone(self):
-        phone = self.cleaned_data['phone']
-        if phone.country_code is None:
-            phone.country_code = PhoneNumber().region_code
-        if phone.national_number is None:
-            raise forms.ValidationError(
-                'Please enter a valid phone number without the country code.'
-                )
-        return phone.national_number
+        phone_number = self.cleaned_data['phone']
+        default_region = 'US'  # set a default region here
+        try:
+            parsed_number = phonenumbers.parse(phone_number, default_region)
+        except NumberParseException:
+            raise forms.ValidationError('Please enter a valid phone number.')
+
+        if not phonenumbers.is_valid_number(parsed_number):
+            raise forms.ValidationError('Please enter a valid phone number.')
+
+        return phonenumbers.format_number(parsed_number,
+                                          phonenumbers.PhoneNumberFormat.E164)
 
 
 class AddCustomerForm(forms.ModelForm):

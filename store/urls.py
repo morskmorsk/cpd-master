@@ -5,7 +5,7 @@ from .views import SearchCustomerView, CustomerDetailView, AddCustomerView,\
 urlpatterns = [
     path('', SearchCustomerView.as_view(),
          name='search_customer'),
-    path('customer/<int:customer_id>/', CustomerDetailView.as_view(),
+    path('customer/<int:pk>/', CustomerDetailView.as_view(),
          name='customer_detail'),
     path('add_customer/', AddCustomerView.as_view(),
          name='add_customer'),

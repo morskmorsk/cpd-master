@@ -12,7 +12,7 @@ from django.views.generic.edit import UpdateView
 
 
 class SearchCustomerView(FormView):
-    template_name = 'store/search_customer.html'
+    template_name = 'store/customers/search_customer.html'
     form_class = SearchCustomerForm
 
     def form_valid(self, form):
@@ -23,30 +23,29 @@ class SearchCustomerView(FormView):
             return redirect('customer_detail', customer_id=customer.id)
         else:
             customer_form = AddCustomerForm(initial={'phone': phone})
-            return render(self.request, 'store/add_customer.html',
+            return render(self.request, 'store/customers/add_customer.html',
                           {'customer_form': customer_form})
 
 
 class CustomerDetailView(DetailView):
     model = Customer
-    template_name = 'store/customer_detail.html'
+    template_name = 'store/customers/customer_detail.html'
     context_object_name = 'customer'
 
 
 class AddCustomerView(CreateView):
     model = Customer
     form_class = AddCustomerForm
-    template_name = 'store/add_customer.html'
+    template_name = 'store/customers/add_customer.html'
 
     def get_success_url(self):
-        return reverse_lazy('customer_detail',
-                            kwargs={'customer_id': self.object.id})
+        return reverse_lazy('customer_detail', kwargs={'pk': self.object.pk})
 
 
 class EditCustomerView(UpdateView):
     model = Customer
     form_class = AddCustomerForm
-    template_name = 'store/edit_customer.html'
+    template_name = 'store/customers/edit_customer.html'
     context_object_name = 'customer'
 
     def get_success_url(self):
@@ -57,7 +56,7 @@ class EditCustomerView(UpdateView):
 class AddWorkOrderView(UserPassesTestMixin, CreateView):
     model = WorkOrder
     form_class = AddWorkOrderForm
-    template_name = 'store/add_workorder.html'
+    template_name = 'store/work_orders/add_workorder.html'
     # You should provide the correct template name here
 
     def test_func(self):
@@ -74,7 +73,7 @@ class AddWorkOrderView(UserPassesTestMixin, CreateView):
             )
         work_order.employee = self.request.user
         work_order.save()
-        return redirect('store/customer_work_orders.html',
+        return redirect('store/work_orders/customer_work_orders.html',
                         customer_id=self.kwargs['customer_id'])
 
     def get_context_data(self, **kwargs):
@@ -87,7 +86,7 @@ class AddWorkOrderView(UserPassesTestMixin, CreateView):
 
 class CustomerWorkOrdersView(ListView):
     model = WorkOrder
-    template_name = 'store/customer_work_orders.html'
+    template_name = 'store/customers/customer_work_orders.html'
     context_object_name = 'work_orders'
 
     def get_queryset(self):
