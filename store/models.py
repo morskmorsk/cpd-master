@@ -202,10 +202,10 @@ class Customer(models.Model):
         return phonenumbers.format_number(self.phone, phonenumbers.PhoneNumberFormat.NATIONAL)
 
     def __str__(self):
-        return str(self.user)
+        return str(self.phone)
 
     def __repr__(self) -> str:
-        return str(self.user)
+        return str(self.phone)
 
     class Meta:
         ordering = ('id',)
@@ -474,8 +474,8 @@ class WorkOrder(models.Model):
         Customer, on_delete=models.CASCADE, related_name='work_order_Customer')
     employee = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='work_order_employee')
-    device = models.ForeignKey(
-        Device, on_delete=models.CASCADE, related_name='work_order_device')
+    # device = models.ForeignKey(
+    #     Device, on_delete=models.CASCADE, related_name='work_order_device')
     work_order_status = models.CharField(
         max_length=25, choices=WORK_ORDER_STATUS_CHOICES, default='pending')
     price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)

@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Work Orders for {{ customer }}</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Status</th>
+        <th>Device</th>
+        <th>Price</th>
+        <th>Discount</th>
+        <th>Total Price</th>
+        <th>Created Date</th>
+        <th>Updated Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for work_order in work_orders %}
+        <tr>
+          <td>{{ work_order.id }}</td>
+          <td>{{ work_order.get_work_order_status_display }}</td>
+          <td>{{ work_order.device }}</td>
+          <td>{{ work_order.price }}</td>
+          <td>{{ work_order.discount }}</td>
+          <td>{{ work_order.get_total_price }}</td>
+          <td>{{ work_order.order_created_date }}</td>
+          <td>{{ work_order.order_updated_date }}</td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="8">No work orders found for this customer.</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
