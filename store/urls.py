@@ -31,6 +31,7 @@ router.register(r'products', ProductViewSet)
 router.register(r'shoppingcarts', ShoppingCartViewSet)
 router.register(r'cartitems', CartItemViewSet)
 
+app_name = 'store'
 
 urlpatterns = [
     path('api/v1/', include(router.urls)),
@@ -41,4 +42,14 @@ urlpatterns = [
     path('manufacturer/<int:pk>/', views.ManufacturerDetailView.as_view(), name='manufacturer_detail'),
     path('manufacturer/new/', views.ManufacturerCreateView.as_view(), name='manufacturer_create'),
     path('manufacturer/<int:pk>/edit/', views.ManufacturerUpdateView.as_view(), name='manufacturer_update'),
-]
+    # brand urls:
+    path('brands/', views.BrandListView.as_view(), name='brand_list'),
+    path('brand/<int:pk>/', views.BrandDetailView.as_view(), name='brand_detail'),
+    path('brand/new/', views.BrandCreateView.as_view(), name='brand_create'),
+    path('brand/<int:pk>/edit/', views.BrandUpdateView.as_view(), name='brand_update'), 
+    # DeviceModel URLs
+    path('devicemodels/', views.DeviceModelListView.as_view(), name='devicemodel_list'),
+    path('devicemodel/<int:pk>/', views.DeviceModelDetailView.as_view(), name='devicemodel_detail'),
+    path('devicemodel/new/', views.DeviceModelCreateView.as_view(), name='devicemodel_create'),
+    path('devicemodel/<int:pk>/edit/', views.DeviceModelUpdateView.as_view(), name='devicemodel_update'),
+    ]

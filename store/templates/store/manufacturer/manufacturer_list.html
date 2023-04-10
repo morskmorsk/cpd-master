@@ -2,10 +2,10 @@
 
 {% block content %}
   <h1>Manufacturers</h1>
-  <a href="{% url 'manufacturer_create' %}">Create new manufacturer</a>
+  <a href="{% url 'store:manufacturer_create' %}">Create new manufacturer</a>
   <ul>
     {% for manufacturer in object_list %}
-      <li><a href="{% url 'manufacturer_detail' manufacturer.pk %}">{{ manufacturer.name }}</a></li>
+      <li><a href="{% url 'store:manufacturer_detail' manufacturer.pk %}">{{ manufacturer.name }}</a></li>
     {% empty %}
       <li>No manufacturers found.</li>
     {% endfor %}

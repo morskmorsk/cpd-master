@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>{{ brand.name }}</h1>
+  <p>Manufacturer: {{ brand.manufacturer.name }}</p>
+  <a href="{% url 'store:brand_update' brand.pk %}">Edit</a>
+{% endblock %}

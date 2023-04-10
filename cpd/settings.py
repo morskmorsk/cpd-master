@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'users',
     'crispy_forms',
     'widget_tweaks',
+    'django_filters',
     # 'cpdapp.apps.CpdappConfig',
     # 'cpdapp',
     # 'rest_framework.authtoken',
