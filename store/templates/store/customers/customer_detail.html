@@ -40,8 +40,8 @@
         </tbody>
     </table>
     <div>
-        <a href="{% url 'edit_customer' customer_id=customer.id %}" class="btn btn-primary">Edit Customer</a>
-        <a href="{% url 'add_work_order' customer_id=customer.id %}" class="btn btn-primary">Add Work Order</a>
-        <a href="{% url 'add_sale' customer_id=customer.id %}" class="btn btn-primary">Add Sale</a>
+        {% comment %} <a href="{% url 'edit_customer' pk=pk %}" class="btn btn-primary">Edit Customer</a>
+        <a href="{% url 'add_work_order' pk=customer.id customer_id=customer.id %}" class="btn btn-primary">Add Work Order</a> {% endcomment %}
+        {% comment %} <a href="{% url 'add_sale' customer_id=customer.id %}" class="btn btn-primary">Add Sale</a> {% endcomment %}
     </div>
 {% endblock %}

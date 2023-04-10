@@ -1,9 +1,9 @@
 from django.db import models
-from django.contrib.auth.models import User
+from users.models import CustomUser
 from datetime import datetime, timezone
 from django.core.validators import MinValueValidator
-from phonenumber_field.modelfields import PhoneNumberField
-import phonenumbers
+# from phonenumber_field.modelfields import PhoneNumberField
+# import phonenumbers
 # /////////////////////////////////////////////////////////////////////////////////
 STATE_CHOICES = (
     ('AL', 'Alabama'),
@@ -172,48 +172,6 @@ LABOR_RISK_CHOICES = (
 # //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-class Customer(models.Model):
-    username = models.CharField(max_length=50, blank=True, null=True, verbose_name='Username')
-    email = models.EmailField(max_length=50, blank=True, null=True, unique=True, verbose_name='Email')
-    # phone = PhoneNumberField(unique=True, verbose_name='Phone Number')
-    phone = models.CharField(max_length=14, unique=True, verbose_name='Phone Number')
-    address = models.CharField(max_length=100, blank=True, null=True, verbose_name='Address')
-    city = models.CharField(max_length=50, blank=True, null=True, verbose_name='City')
-    state = models.CharField(max_length=2, blank=True, null=True, choices=STATE_CHOICES, verbose_name='State')
-    zipcode = models.CharField(max_length=10, blank=True, null=True, verbose_name='Zip Code')
-    service_provider = models.CharField(max_length=50, choices=SERVICE_PROVIDER_CHOICES, default='Unknown', verbose_name='Service Provider')
-    accept_devices_trade_in = models.BooleanField(default=True, verbose_name='Accept Trade-ins')
-    accept_devices_buy = models.BooleanField(default=True, verbose_name='Buy Devices')
-    accept_devices_sell = models.BooleanField(default=True, verbose_name='Sell Devices')
-    accept_device_repair = models.BooleanField(default=True, verbose_name='Repair Devices')
-    accept_sell = models.BooleanField(default=True, verbose_name='Accept Sales')
-    blacklisted = models.BooleanField(default=False, verbose_name='Blacklisted')
-    blacklisted_reason = models.CharField(max_length=100, default="", blank=True, null=True, verbose_name='Blacklisted Reason')
-    photo = models.ImageField(upload_to='customer_photos', blank=True, null=True, verbose_name='Customer Photo')
-    notes = models.TextField(max_length=500, blank=True, null=True, verbose_name='Notes')
-    bio = models.TextField(max_length=500, blank=True, null=True, verbose_name='Biography')
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Created At')
-    updated_at = models.DateTimeField(auto_now=True, verbose_name='Updated At')
-    created_by = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE, related_name='customer_created_by', verbose_name='Created By')
-    updated_by = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE, related_name='customer_updated_by', verbose_name='Updated By')
-
-    @property
-    def formatted_phone_number(self):
-        return phonenumbers.format_number(self.phone, phonenumbers.PhoneNumberFormat.NATIONAL)
-
-    def __str__(self):
-        return str(self.phone)
-
-    def __repr__(self) -> str:
-        return str(self.phone)
-
-    class Meta:
-        ordering = ('id',)
-        verbose_name = 'Customer'
-        verbose_name_plural = 'Customers'
-# //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
 class Manufacturer(models.Model):
     name = models.CharField(max_length=50, unique=True)
 
@@ -371,8 +329,12 @@ class Location(models.Model):
 
 
 class Device(models.Model):
-    owner = models.ForeignKey(
-        Customer, on_delete=models.CASCADE, related_name='device_owner')
+    owner = models.ForeignKey(CustomUser,
+                              on_delete=models.CASCADE,
+                              related_name='device_owner',
+                              blank=True,
+                              null=True
+                              )
     department = models.ForeignKey(
         Department, on_delete=models.CASCADE, related_name='device_department')
     location = models.ForeignKey(Location, on_delete=models.CASCADE, default=1)
@@ -381,14 +343,14 @@ class Device(models.Model):
         DeviceColor, on_delete=models.CASCADE, blank=True, null=True)
     carrier = models.CharField(
         max_length=25, choices=SERVICE_PROVIDER_CHOICES, default='unknown')
-    imei = models.CharField(max_length=200, blank=True, null=True)
-    serial_number = models.CharField(max_length=200, blank=True, null=True)
+    imei = models.CharField(max_length=20, blank=True, null=True)
+    serial_number = models.CharField(max_length=20, blank=True, null=True)
     vendor = models.ForeignKey(Vendor, on_delete=models.CASCADE,
                                blank=True,
                                null=True,
                                related_name='device_vendor'
                                )
-    seller = models.ForeignKey(Customer,
+    seller = models.ForeignKey(CustomUser,
                                on_delete=models.CASCADE,
                                related_name='device_seller',
                                blank=True,
@@ -400,14 +362,14 @@ class Device(models.Model):
     value = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     device_created_by = models.ForeignKey(
-        User,
+        CustomUser,
         on_delete=models.CASCADE,
         related_name='device_created_by',
         null=True,
         blank=True
     )
     device_updated_by = models.ForeignKey(
-        User,
+        CustomUser,
         on_delete=models.CASCADE,
         related_name='device_updated_by',
         null=True,
@@ -471,9 +433,11 @@ class WorkOrder(models.Model):
         ('آخر', 'آخر'),
     )
     customer = models.ForeignKey(
-        Customer, on_delete=models.CASCADE, related_name='work_order_Customer')
+        CustomUser, on_delete=models.CASCADE,
+        related_name='work_order_Customer')
     employee = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name='work_order_employee')
+        CustomUser, on_delete=models.CASCADE,
+        related_name='work_order_employee')
     # device = models.ForeignKey(
     #     Device, on_delete=models.CASCADE, related_name='work_order_device')
     work_order_status = models.CharField(
@@ -482,14 +446,14 @@ class WorkOrder(models.Model):
     discount = models.DecimalField(
         max_digits=10, decimal_places=2, default=0.00)
     order_created_by = models.ForeignKey(
-        User,
+        CustomUser,
         on_delete=models.CASCADE,
         related_name='work_order_created_by',
         null=True,
         blank=True
     )
     order_updated_by = models.ForeignKey(
-        User,
+        CustomUser,
         on_delete=models.CASCADE,
         related_name='work_order_updated_by',
         null=True,
@@ -513,7 +477,7 @@ class WorkOrder(models.Model):
     def get_total_price(self):
         total_price = self.price * (1 - (self.discount / 100))
         total_price_with_tax = total_price * (1 + self.TAX_RATE)
-        return total_price_with_tax    
+        return total_price_with_tax
 # //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 # create a labor model
 
@@ -562,8 +526,10 @@ class Product(models.Model):
     description = models.CharField(max_length=300, blank=True, null=True)
     sku = models.CharField(max_length=100, unique=True)
     cost = models.DecimalField(max_digits=12, decimal_places=2, default=0.00)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True)
-    subcategory = models.ForeignKey(Subcategory, on_delete=models.CASCADE, null=True, blank=True)
+    category = models.ForeignKey(
+        Category, on_delete=models.CASCADE, null=True, blank=True)
+    subcategory = models.ForeignKey(
+        Subcategory, on_delete=models.CASCADE, null=True, blank=True)
     # labor = models.ForeignKey(Labor,
     #                           on_delete=models.CASCADE,
     #                           related_name='product_labor',
@@ -615,7 +581,7 @@ class Product(models.Model):
     )
     url = models.CharField(max_length=200, blank=True, null=True)
     product_created_by = models.ForeignKey(
-        User,
+        CustomUser,
         on_delete=models.CASCADE,
         default=None,
         related_name='product_created_by',
@@ -623,7 +589,7 @@ class Product(models.Model):
         null=True
     )
     product_updated_by = models.ForeignKey(
-        User,
+        CustomUser,
         on_delete=models.CASCADE,
         default=None,
         related_name='product_updated_by',
@@ -679,13 +645,13 @@ class ShoppingCart(models.Model):
     TAX_RATE = 0.09
 
     customer = models.ForeignKey(
-        User,
+        CustomUser,
         on_delete=models.CASCADE,
         default=1,
         related_name='shopping_cart_customer'
     )
     cashier = models.ForeignKey(
-        User,
+        CustomUser,
         on_delete=models.CASCADE,
         default=1,
         related_name='shopping_cart_cashier'
@@ -699,14 +665,14 @@ class ShoppingCart(models.Model):
     status = models.CharField(max_length=100, blank=True, null=True)
     notes = models.TextField(blank=True, null=True)
     shopping_cart_created_by = models.ForeignKey(
-        User,
+        CustomUser,
         on_delete=models.CASCADE,
         related_name='shopping_cart_created_by',
         null=True,
         blank=True
     )
     shopping_cart_updated_by = models.ForeignKey(
-        User,
+        CustomUser,
         on_delete=models.CASCADE,
         related_name='shopping_cart_updated_by',
         null=True,
@@ -728,7 +694,8 @@ class ShoppingCart(models.Model):
         return round((self.subtotal + self.tax) * (1 - self.discount / 100), 2)
 
     def update_subtotal(self):
-        self.subtotal = sum(item.product.current_price() * item.quantity for item in self.cart_items.all())
+        self.subtotal = sum(item.product.current_price() *
+                            item.quantity for item in self.cart_items.all())
         self.save()
 
     class Meta:
@@ -739,14 +706,17 @@ class ShoppingCart(models.Model):
 
 
 class CartItem(models.Model):
-    shopping_cart = models.ForeignKey(ShoppingCart, on_delete=models.CASCADE, related_name='cart_items')
+    shopping_cart = models.ForeignKey(
+        ShoppingCart, on_delete=models.CASCADE, related_name='cart_items')
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    quantity = models.IntegerField(default=1, validators=[MinValueValidator(1)])
+    quantity = models.IntegerField(
+        default=1, validators=[MinValueValidator(1)])
 
     def __str__(self):
         return f'{self.product.name} ({self.quantity})'
 
-    # Add a property to get the price for this cart item (product price * quantity)
+    # Add a property to get the price
+    # for this cart item (product price * quantity)
     @property
     def item_total(self):
         return self.product.current_price() * self.quantity
