@@ -1,5 +1,6 @@
 from django.urls import path, include
 from rest_framework import routers
+from . import views
 from .api_views import (ManufacturerViewSet, BrandViewSet,
                         DeviceModelViewSet, DeviceColorViewSet,
                         VendorViewSet, DeviceDefectViewSet,
@@ -31,8 +32,13 @@ router.register(r'shoppingcarts', ShoppingCartViewSet)
 router.register(r'cartitems', CartItemViewSet)
 
 
-urlpatterns = [   
+urlpatterns = [
     path('api/v1/', include(router.urls)),
     path('api-auth/', include('rest_framework.urls',
                               namespace='rest_framework_home')),
+    # manufacturer urls:
+    path('manufacturers/', views.ManufacturerListView.as_view(), name='manufacturer_list'),
+    path('manufacturer/<int:pk>/', views.ManufacturerDetailView.as_view(), name='manufacturer_detail'),
+    path('manufacturer/new/', views.ManufacturerCreateView.as_view(), name='manufacturer_create'),
+    path('manufacturer/<int:pk>/edit/', views.ManufacturerUpdateView.as_view(), name='manufacturer_update'),
 ]

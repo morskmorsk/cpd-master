@@ -1,9 +1,10 @@
 import phonenumbers
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.contrib.auth.models import BaseUserManager
 from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from django.contrib.auth.models import AbstractUser
 
 
 STATE_CHOICES = (
@@ -121,7 +122,7 @@ class CustomUserManager(BaseUserManager):
         return user
 
 
-class CustomUser(AbstractBaseUser):
+class CustomUser(AbstractUser):
     phone_regex = RegexValidator(
         regex=r"^\d{10,15}$",
         message=_("Phone number must be entered in the format:\
@@ -166,7 +167,7 @@ class CustomUser(AbstractBaseUser):
     objects = CustomUserManager()
 
     USERNAME_FIELD = 'phoneNumber'
-    REQUIRED_FIELDS = ['first_name', 'last_name']
+    # REQUIRED_FIELDS = ['first_name', 'last_name']
 
     def __str__(self):
         return self.phoneNumber
