@@ -20,7 +20,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-1d736$^-78qr$bha!ah6)y1b3ynx&ed#5x7b-z!#y^kguzypu0'
+SECRET_KEY = \
+    'django-insecure-1d736$^-78qr$bha!ah6)y1b3ynx&ed#5x7b-z!#y^kguzypu0'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -40,8 +41,10 @@ INSTALLED_APPS = [
     'rest_framework',
     'home',
     'store',
+    'users',
     'crispy_forms',
     'widget_tweaks',
+    'django_filters',
     # 'cpdapp.apps.CpdappConfig',
     # 'cpdapp',
     # 'rest_framework.authtoken',
@@ -100,16 +103,20 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'NAME':
+            'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'NAME':
+            'django.contrib.auth.password_validation.MinimumLengthValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        'NAME':
+            'django.contrib.auth.password_validation.CommonPasswordValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        'NAME':
+            'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
 
@@ -119,7 +126,8 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+# set timezone to central
+TIME_ZONE = 'America/Chicago'
 
 USE_I18N = True
 
@@ -152,5 +160,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Authentication
 LOGIN_URL = 'login'
-LOGIN_REDIRECT_URL = 'home'
+LOGIN_REDIRECT_URL = 'store'
 LOGOUT_REDIRECT_URL = 'home'
+
+AUTH_USER_MODEL = 'users.CustomUser'

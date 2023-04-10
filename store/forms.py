@@ -19,8 +19,9 @@ class SearchCustomerForm(forms.Form):
         if not phonenumbers.is_valid_number(parsed_number):
             raise forms.ValidationError('Please enter a valid phone number.')
 
-        return phonenumbers.format_number(parsed_number,
-                                          phonenumbers.PhoneNumberFormat.E164)
+        return phonenumbers.format_number(
+            parsed_number, phonenumbers.PhoneNumberFormat.NATIONAL
+            )
 
 
 class AddCustomerForm(forms.ModelForm):

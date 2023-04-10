@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Device Model List</h1>
+
+  <ul>
+    {% for manufacturer in grouped_devicemodels %}
+      <li>
+        <strong>{{ manufacturer.name }}</strong>
+        <ul>
+          {% for brand in manufacturer.brand_set.all %}
+            {% for devicemodel in brand.devicemodel_set.all %}
+              <li><a href="{% url 'store:devicemodel_detail' devicemodel.pk %}">{{ brand.name }} - {{ devicemodel.name }}</a></li>
+            {% endfor %}
+          {% endfor %}
+        </ul>
+      </li>
+    {% empty %}
+      <li>No manufacturers found.</li>
+    {% endfor %}
+  </ul>
+
+  <a href="{% url 'store:devicemodel_create' %}">Add a device model</a>
+{% endblock %}

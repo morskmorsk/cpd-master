@@ -29,9 +29,9 @@
                         <li class="nav-item">
                             <a class="nav-link text-white" href="#">Welcome, {{ user.username }}</a>
                         </li>
-                        <li class="nav-item">
+                        {% comment %} <li class="nav-item">
                             <a class="nav-link text-white" href="{% url 'search_customer' %}">Store</a>
-                        </li>
+                        </li> {% endcomment %}
                         <li class="nav-item">
                             <a class="nav-link text-white" href="{% url 'logout' %}">Logout</a>
                         </li>

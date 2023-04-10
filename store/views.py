@@ -1,101 +1,145 @@
-from django.shortcuts import render
-from .models import Customer, WorkOrder
-from .forms import SearchCustomerForm, AddCustomerForm, AddWorkOrderForm
-from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
-from django.views.generic.edit import FormView
-from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView
-from django.contrib.auth.mixins import UserPassesTestMixin
-from django.views.generic.list import ListView
-from django.views.generic.edit import UpdateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from .models import Manufacturer, Brand, DeviceModel, DeviceColor
+from django.db.models import Prefetch
+
+# create views for Manufacturer model
 
 
-class SearchCustomerView(FormView):
-    template_name = 'store/customers/search_customer.html'
-    form_class = SearchCustomerForm
-
-    def form_valid(self, form):
-        phone = form.cleaned_data['phone']
-        customer = Customer.objects.filter(phone=phone).first()
-
-        if customer:
-            return redirect('customer_detail', customer_id=customer.id)
-        else:
-            customer_form = AddCustomerForm(initial={'phone': phone})
-            return render(self.request, 'store/customers/add_customer.html',
-                          {'customer_form': customer_form})
+class ManufacturerListView(ListView):
+    model = Manufacturer
+    template_name = 'store/manufacturer/manufacturer_list.html'
 
 
-class CustomerDetailView(DetailView):
-    model = Customer
-    template_name = 'store/customers/customer_detail.html'
-    context_object_name = 'customer'
+class ManufacturerDetailView(DetailView):
+    model = Manufacturer
+    template_name = 'store/manufacturer/manufacturer_detail.html'
 
 
-class AddCustomerView(CreateView):
-    model = Customer
-    form_class = AddCustomerForm
-    template_name = 'store/customers/add_customer.html'
-
-    def get_success_url(self):
-        return reverse_lazy('customer_detail', kwargs={'pk': self.object.pk})
+class ManufacturerCreateView(CreateView):
+    model = Manufacturer
+    fields = ['name']
+    template_name = 'store/manufacturer/manufacturer_form.html'
+    success_url = reverse_lazy('store:manufacturer_list')
 
 
-class EditCustomerView(UpdateView):
-    model = Customer
-    form_class = AddCustomerForm
-    template_name = 'store/customers/edit_customer.html'
-    context_object_name = 'customer'
-
-    def get_success_url(self):
-        return reverse_lazy('customer_detail',
-                            kwargs={'customer_id': self.object.id})
+class ManufacturerUpdateView(UpdateView):
+    model = Manufacturer
+    fields = ['name']
+    template_name = 'store/manufacturer/manufacturer_form.html'
+    success_url = reverse_lazy('store:manufacturer_list')
 
 
-class AddWorkOrderView(UserPassesTestMixin, CreateView):
-    model = WorkOrder
-    form_class = AddWorkOrderForm
-    template_name = 'store/work_orders/add_workorder.html'
-    # You should provide the correct template name here
-
-    def test_func(self):
-        return self.request.user.is_authenticated
-
-    def handle_no_permission(self):
-        # Redirect the user to the login page if they are not authenticated
-        return redirect('login')  # Use the correct name for your login view
-
-    def form_valid(self, form):
-        work_order = form.save(commit=False)
-        work_order.customer = get_object_or_404(
-            Customer, pk=self.kwargs['customer_id']
-            )
-        work_order.employee = self.request.user
-        work_order.save()
-        return redirect('store/work_orders/customer_work_orders.html',
-                        customer_id=self.kwargs['customer_id'])
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['customer'] = get_object_or_404(
-            Customer, pk=self.kwargs['customer_id']
-            )
-        return context
+# create views for Brand model
+# class Brand(models.Model):
+#     manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE)
+#     name = models.CharField(max_length=50)
 
 
-class CustomerWorkOrdersView(ListView):
-    model = WorkOrder
-    template_name = 'store/customers/customer_work_orders.html'
-    context_object_name = 'work_orders'
+class BrandListView(ListView):
+    model = Brand
+    template_name = 'store/brand/brand_list.html'
 
     def get_queryset(self):
-        customer = get_object_or_404(Customer, pk=self.kwargs['customer_id'])
-        return WorkOrder.objects.filter(customer=customer)
+        qs = super().get_queryset()
+        return qs.order_by('manufacturer__name', 'name')
+
+
+class BrandDetailView(DetailView):
+    model = Brand
+    template_name = 'store/brand/brand_detail.html'
+
+
+class BrandCreateView(CreateView):
+    model = Brand
+    fields = ['manufacturer', 'name']
+    template_name = 'store/brand/brand_form.html'
+    success_url = reverse_lazy('store:brand_list')
+
+
+class BrandUpdateView(UpdateView):
+    model = Brand
+    fields = ['manufacturer', 'name']
+    template_name = 'store/brand/brand_form.html'
+    success_url = reverse_lazy('store:brand_list')
+
+
+# class DeviceModel(models.Model):
+#     brand = models.ForeignKey(Brand, on_delete=models.CASCADE)
+#     model_series = models.CharField(max_length=50, default="N/A")
+#     name = models.CharField(max_length=50)
+
+# create views for DeviceModel model
+
+
+# class DeviceModelListView(ListView):
+#     model = DeviceModel
+#     template_name = 'store/devicemodel/devicemodel_list.html'
+
+#     def get_queryset(self):
+#         qs = super().get_queryset()
+#         return qs.order_by('brand__manufacturer__name', 'brand__name', 'name')
+
+
+class DeviceModelListView(ListView):
+    model = DeviceModel
+    template_name = 'store/devicemodel/devicemodel_list.html'
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        qs = qs.order_by('brand__manufacturer__name', 'brand__name', 'name')
+        return qs
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['customer'] = get_object_or_404(
-            Customer, pk=self.kwargs['customer_id']
-            )
+        context['grouped_devicemodels'] = Manufacturer.objects.all().prefetch_related(Prefetch('brand_set__devicemodel_set', queryset=self.get_queryset()))
         return context
+
+
+class DeviceModelDetailView(DetailView):
+    model = DeviceModel
+    template_name = 'store/devicemodel/devicemodel_detail.html'
+
+
+class DeviceModelCreateView(CreateView):
+    model = DeviceModel
+    fields = ['brand', 'model_series', 'name']
+    template_name = 'store/devicemodel/devicemodel_form.html'
+    success_url = reverse_lazy('store:devicemodel_list')
+
+
+class DeviceModelUpdateView(UpdateView):
+    model = DeviceModel
+    fields = ['brand', 'model_series', 'name']
+    template_name = 'store/devicemodel/devicemodel_form.html'
+    success_url = reverse_lazy('store:devicemodel_list')
+
+
+# class DeviceColor(models.Model):
+    # name = models.CharField(max_length=50, unique=True)
+
+# create views for DeviceColor model
+
+
+class DeviceColorListView(ListView):
+    model = DeviceColor
+    template_name = 'store/devicecolor/devicecolor_list.html'
+
+
+class DeviceColorDetailView(DetailView):
+    model = DeviceColor
+    template_name = 'store/devicecolor/devicecolor_detail.html'
+
+
+class DeviceColorCreateView(CreateView):
+    model = DeviceColor
+    fields = ['name']
+    template_name = 'store/devicecolor/devicecolor_form.html'
+    success_url = reverse_lazy('store:devicecolor_list')
+
+
+class DeviceColorUpdateView(UpdateView):
+    model = DeviceColor
+    fields = ['name']
+    template_name = 'store/devicecolor/devicecolor_form.html'
+    success_url = reverse_lazy('store:devicecolor_list')

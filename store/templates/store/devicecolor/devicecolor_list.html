@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Device Color List</h1>
+  
+  <ul>
+    {% for devicecolor in object_list %}
+      <li><a href="{% url 'store:devicecolor_detail' devicecolor.pk %}">{{ devicecolor.name }}</a></li>
+    {% empty %}
+      <li>No device colors found.</li>
+    {% endfor %}
+  </ul>
+  
+  <a href="{% url 'store:devicecolor_create' %}">Add a device color</a>
+{% endblock %}

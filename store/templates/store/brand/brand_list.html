@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Brand List</h1>
+
+  {% regroup object_list by manufacturer as brands_grouped %}
+  
+  <ul>
+    {% for group in brands_grouped %}
+      <li><strong>{{ group.grouper }}</strong>
+        <ul>
+          {% for brand in group.list %}
+            <li><a href="{% url 'store:brand_detail' brand.pk %}">{{ brand.name }}</a></li>
+          {% endfor %}
+        </ul>
+      </li>
+    {% empty %}
+      <li>No brands found.</li>
+    {% endfor %}
+  </ul>
+  
+  <a href="{% url 'store:brand_create' %}">Add a brand</a>
+{% endblock %}
