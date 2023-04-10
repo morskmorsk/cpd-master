@@ -1,6 +1,6 @@
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
-from .models import Manufacturer, Brand, DeviceModel
+from .models import Manufacturer, Brand, DeviceModel, DeviceColor
 from django.db.models import Prefetch
 
 # create views for Manufacturer model
@@ -113,3 +113,33 @@ class DeviceModelUpdateView(UpdateView):
     fields = ['brand', 'model_series', 'name']
     template_name = 'store/devicemodel/devicemodel_form.html'
     success_url = reverse_lazy('store:devicemodel_list')
+
+
+# class DeviceColor(models.Model):
+    # name = models.CharField(max_length=50, unique=True)
+
+# create views for DeviceColor model
+
+
+class DeviceColorListView(ListView):
+    model = DeviceColor
+    template_name = 'store/devicecolor/devicecolor_list.html'
+
+
+class DeviceColorDetailView(DetailView):
+    model = DeviceColor
+    template_name = 'store/devicecolor/devicecolor_detail.html'
+
+
+class DeviceColorCreateView(CreateView):
+    model = DeviceColor
+    fields = ['name']
+    template_name = 'store/devicecolor/devicecolor_form.html'
+    success_url = reverse_lazy('store:devicecolor_list')
+
+
+class DeviceColorUpdateView(UpdateView):
+    model = DeviceColor
+    fields = ['name']
+    template_name = 'store/devicecolor/devicecolor_form.html'
+    success_url = reverse_lazy('store:devicecolor_list')

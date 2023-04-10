@@ -52,4 +52,9 @@ urlpatterns = [
     path('devicemodel/<int:pk>/', views.DeviceModelDetailView.as_view(), name='devicemodel_detail'),
     path('devicemodel/new/', views.DeviceModelCreateView.as_view(), name='devicemodel_create'),
     path('devicemodel/<int:pk>/edit/', views.DeviceModelUpdateView.as_view(), name='devicemodel_update'),
+    # DeviceColor URLs
+    path('devicecolors/', views.DeviceColorListView.as_view(), name='devicecolor_list'),
+    path('devicecolor/<int:pk>/', views.DeviceColorDetailView.as_view(), name='devicecolor_detail'),
+    path('devicecolor/new/', views.DeviceColorCreateView.as_view(), name='devicecolor_create'),
+    path('devicecolor/<int:pk>/edit/', views.DeviceColorUpdateView.as_view(), name='devicecolor_update'),
     ]
