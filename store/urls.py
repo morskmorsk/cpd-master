@@ -1,19 +1,38 @@
-# from django.urls import path
-# from .views import SearchCustomerView, CustomerDetailView, AddCustomerView,\
-#     EditCustomerView, AddWorkOrderView, CustomerWorkOrdersView
+from django.urls import path, include
+from rest_framework import routers
+from .api_views import (ManufacturerViewSet, BrandViewSet,
+                        DeviceModelViewSet, DeviceColorViewSet,
+                        VendorViewSet, DeviceDefectViewSet,
+                        DepartmentViewSet, LocationViewSet,
+                        DeviceViewSet, WorkOrderViewSet,
+                        LaborViewSet, CategoryViewSet,
+                        SubcategoryViewSet, TagViewSet,
+                        ProductViewSet, ShoppingCartViewSet,
+                        CartItemViewSet)
 
-urlpatterns = [
-  #     path('', SearchCustomerView.as_view(),
-  #          name='search_customer'),
-  #     path('customer/<int:pk>/', CustomerDetailView.as_view(),
-  #          name='customer_detail'),
-  #     path('add_customer/', AddCustomerView.as_view(),
-  #          name='add_customer'),
-  #     path('edit_customer/<int:pk>/', EditCustomerView.as_view(),
-  #          name='edit_customer'),
-  #     path('add_work_order/<int:customer_id>/', AddWorkOrderView.as_view(),
-  #          name='add_work_order'),
-  #     path('customer/<int:pk>/work_orders/',
-  #          CustomerWorkOrdersView.as_view(),
-  #          name='customer_work_orders'),
+router = routers.DefaultRouter()
+
+router.register(r'manufacturers', ManufacturerViewSet)
+router.register(r'brands', BrandViewSet)
+router.register(r'devicemodels', DeviceModelViewSet)
+router.register(r'devicecolors', DeviceColorViewSet)
+router.register(r'vendors', VendorViewSet)
+router.register(r'devicedefects', DeviceDefectViewSet)
+router.register(r'departments', DepartmentViewSet)
+router.register(r'locations', LocationViewSet)
+router.register(r'devices', DeviceViewSet)
+router.register(r'workorders', WorkOrderViewSet)
+router.register(r'labor', LaborViewSet)
+router.register(r'categories', CategoryViewSet)
+router.register(r'subcategories', SubcategoryViewSet)
+router.register(r'tags', TagViewSet)
+router.register(r'products', ProductViewSet)
+router.register(r'shoppingcarts', ShoppingCartViewSet)
+router.register(r'cartitems', CartItemViewSet)
+
+
+urlpatterns = [   
+    path('api/v1/', include(router.urls)),
+    path('api-auth/', include('rest_framework.urls',
+                              namespace='rest_framework_home')),
 ]
