@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Device Defect: {{ object.defect_name }}</h2>
+    <p>Description: {{ object.defect_description }}</p>
+    <p>Solution: {{ object.defect_solution }}</p>
+    <a href="{% url 'store:devicedefect_update' object.pk %}">Edit Device Defect</a> |
+    <a href="{% url 'store:devicedefect_delete' object.pk %}">Delete Device Defect</a>
+{% endblock %}

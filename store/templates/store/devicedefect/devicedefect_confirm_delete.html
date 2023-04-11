@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Are you sure you want to delete the device defect "{{ object.defect_name }}"?</h2>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Yes, delete</button>
+        <a href="{% url 'store:devicedefect_list' %}">Cancel</a>
+    </form>
+{% endblock %}

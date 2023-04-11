@@ -170,6 +170,10 @@ LABOR_RISK_CHOICES = (
     ('Too High', 'too high'),
 )
 # //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+TAXABLE_CHOICES = (
+    ('Yes', 'yes'),
+    ('No', 'no'),
+)
 
 
 class Manufacturer(models.Model):
@@ -290,12 +294,8 @@ class DeviceDefect(models.Model):
 
 class Department(models.Model):
     name = models.CharField(max_length=200)
-    taxable_choices = (
-        ('Yes', 'yes'),
-        ('No', 'no'),
-    )
     taxable = models.CharField(
-        max_length=3, choices=taxable_choices, default='yes')
+        max_length=3, choices=TAXABLE_CHOICES, default='yes')
 
     def __str__(self):
         return self.name
