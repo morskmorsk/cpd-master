@@ -42,19 +42,23 @@ urlpatterns = [
     path('manufacturer/<int:pk>/', views.ManufacturerDetailView.as_view(), name='manufacturer_detail'),
     path('manufacturer/new/', views.ManufacturerCreateView.as_view(), name='manufacturer_create'),
     path('manufacturer/<int:pk>/edit/', views.ManufacturerUpdateView.as_view(), name='manufacturer_update'),
+    path('manufacturer/<int:pk>/delete/', views.ManufacturerDeleteView.as_view(), name='manufacturer_delete'),
     # brand urls:
     path('brands/', views.BrandListView.as_view(), name='brand_list'),
     path('brand/<int:pk>/', views.BrandDetailView.as_view(), name='brand_detail'),
     path('brand/new/', views.BrandCreateView.as_view(), name='brand_create'),
     path('brand/<int:pk>/edit/', views.BrandUpdateView.as_view(), name='brand_update'), 
+    path('brand/<int:pk>/delete/', views.BrandDeleteView.as_view(), name='brand_delete'),
     # DeviceModel URLs
     path('devicemodels/', views.DeviceModelListView.as_view(), name='devicemodel_list'),
     path('devicemodel/<int:pk>/', views.DeviceModelDetailView.as_view(), name='devicemodel_detail'),
     path('devicemodel/new/', views.DeviceModelCreateView.as_view(), name='devicemodel_create'),
     path('devicemodel/<int:pk>/edit/', views.DeviceModelUpdateView.as_view(), name='devicemodel_update'),
+    path('devicemodel/<int:pk>/delete/', views.DeviceModelDeleteView.as_view(), name='devicemodel_delete'),
     # DeviceColor URLs
     path('devicecolors/', views.DeviceColorListView.as_view(), name='devicecolor_list'),
     path('devicecolor/<int:pk>/', views.DeviceColorDetailView.as_view(), name='devicecolor_detail'),
     path('devicecolor/new/', views.DeviceColorCreateView.as_view(), name='devicecolor_create'),
     path('devicecolor/<int:pk>/edit/', views.DeviceColorUpdateView.as_view(), name='devicecolor_update'),
-    ]
+    path('devicecolor/<int:pk>/delete/', views.DeviceColorDeleteView.as_view(), name='devicecolor_delete'),
+]
