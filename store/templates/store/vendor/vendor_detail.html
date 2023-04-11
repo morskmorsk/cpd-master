@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Vendor: {{ object.name }}</h2>
+    <p>Contact: {{ object.contact_name }}</p>
+    <p>Phone: {{ object.phone }}</p>
+    <p>Email: {{ object.email }}</p>
+    <p>Address: {{ object.address }}</p>
+    <a href="{% url 'store:vendor_update' object.pk %}">Edit Vendor</a> |
+    <a href="{% url 'store:vendor_delete' object.pk %}">Delete Vendor</a>
+{% endblock %}

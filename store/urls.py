@@ -61,4 +61,10 @@ urlpatterns = [
     path('devicecolor/new/', views.DeviceColorCreateView.as_view(), name='devicecolor_create'),
     path('devicecolor/<int:pk>/edit/', views.DeviceColorUpdateView.as_view(), name='devicecolor_update'),
     path('devicecolor/<int:pk>/delete/', views.DeviceColorDeleteView.as_view(), name='devicecolor_delete'),
+    # Vendor URLs
+    path('vendors/', views.VendorListView.as_view(), name='vendor_list'),
+    path('vendor/<int:pk>/', views.VendorDetailView.as_view(), name='vendor_detail'),
+    path('vendor/new/', views.VendorCreateView.as_view(), name='vendor_create'),
+    path('vendor/<int:pk>/edit/', views.VendorUpdateView.as_view(), name='vendor_update'),
+    path('vendor/<int:pk>/delete/', views.VendorDeleteView.as_view(), name='vendor_delete'),
 ]

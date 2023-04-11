@@ -1,6 +1,6 @@
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from .models import Manufacturer, Brand, DeviceModel, DeviceColor
+from .models import Manufacturer, Brand, DeviceModel, DeviceColor, Vendor
 from django.db.models import Prefetch
 
 # create views for Manufacturer model
@@ -137,3 +137,33 @@ class DeviceColorDeleteView(DeleteView):
     model = DeviceColor
     template_name = 'store/devicecolor/devicecolor_confirm_delete.html'
     success_url = reverse_lazy('store:devicecolor_list')
+
+
+class VendorListView(ListView):
+    model = Vendor
+    template_name = 'store/vendor/vendor_list.html'
+    
+    
+class VendorDetailView(DetailView):
+    model = Vendor
+    template_name = 'store/vendor/vendor_detail.html'
+    
+    
+class VendorCreateView(CreateView):
+    model = Vendor
+    fields = ['name', 'contact_name', 'phone', 'email', 'address']
+    template_name = 'store/vendor/vendor_form.html'
+    success_url = reverse_lazy('store:vendor_list')
+    
+    
+class VendorUpdateView(UpdateView):
+    model = Vendor
+    fields = ['name', 'contact_name', 'phone', 'email', 'address']
+    template_name = 'store/vendor/vendor_form.html'
+    success_url = reverse_lazy('store:vendor_list')
+    
+    
+class VendorDeleteView(DeleteView):
+    model = Vendor
+    template_name = 'store/vendor/vendor_confirm_delete.html'
+    success_url = reverse_lazy('store:vendor_list')
