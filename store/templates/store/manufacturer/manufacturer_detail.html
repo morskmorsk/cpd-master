@@ -2,5 +2,7 @@
 
 {% block content %}
   <h1>{{ object.name }}</h1>
-  <a href="{% url 'store:manufacturer_update' object.pk %}">Edit</a>
+  <a href="{% url 'store:manufacturer_list' %}">Back to manufacturer list</a> | 
+  <a href="{% url 'store:manufacturer_update' object.pk %}">Edit</a> | 
+  <a href="{% url 'store:manufacturer_delete' object.pk %}">Delete</a> | 
 {% endblock %}

@@ -3,5 +3,7 @@
 {% block content %}
   <h1>{{ brand.name }}</h1>
   <p>Manufacturer: {{ brand.manufacturer.name }}</p>
-  <a href="{% url 'store:brand_update' brand.pk %}">Edit</a>
+  <a href="{% url 'store:brand_list' %}">Back to Brands</a> |
+  <a href="{% url 'store:brand_update' brand.pk %}">Edit</a> |
+  <a href="{% url 'store:brand_delete' brand.pk %}">Delete</a> |
 {% endblock %}

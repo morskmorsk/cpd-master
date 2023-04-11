@@ -1,5 +1,5 @@
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Manufacturer, Brand, DeviceModel, DeviceColor
 from django.db.models import Prefetch
 
@@ -30,10 +30,10 @@ class ManufacturerUpdateView(UpdateView):
     success_url = reverse_lazy('store:manufacturer_list')
 
 
-# create views for Brand model
-# class Brand(models.Model):
-#     manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE)
-#     name = models.CharField(max_length=50)
+class ManufacturerDeleteView(DeleteView):
+    model = Manufacturer
+    template_name = 'store/manufacturer/manufacturer_confirm_delete.html'
+    success_url = reverse_lazy('store:manufacturer_list')
 
 
 class BrandListView(ListView):
@@ -64,21 +64,10 @@ class BrandUpdateView(UpdateView):
     success_url = reverse_lazy('store:brand_list')
 
 
-# class DeviceModel(models.Model):
-#     brand = models.ForeignKey(Brand, on_delete=models.CASCADE)
-#     model_series = models.CharField(max_length=50, default="N/A")
-#     name = models.CharField(max_length=50)
-
-# create views for DeviceModel model
-
-
-# class DeviceModelListView(ListView):
-#     model = DeviceModel
-#     template_name = 'store/devicemodel/devicemodel_list.html'
-
-#     def get_queryset(self):
-#         qs = super().get_queryset()
-#         return qs.order_by('brand__manufacturer__name', 'brand__name', 'name')
+class BrandDeleteView(DeleteView):
+    model = Brand
+    template_name = 'store/brand/brand_confirm_delete.html'
+    success_url = reverse_lazy('store:brand_list')
 
 
 class DeviceModelListView(ListView):
@@ -114,11 +103,10 @@ class DeviceModelUpdateView(UpdateView):
     template_name = 'store/devicemodel/devicemodel_form.html'
     success_url = reverse_lazy('store:devicemodel_list')
 
-
-# class DeviceColor(models.Model):
-    # name = models.CharField(max_length=50, unique=True)
-
-# create views for DeviceColor model
+class DeviceModelDeleteView(DeleteView):
+    model = DeviceModel
+    template_name = 'store/devicemodel/devicemodel_confirm_delete.html'
+    success_url = reverse_lazy('store:devicemodel_list')
 
 
 class DeviceColorListView(ListView):
@@ -142,4 +130,10 @@ class DeviceColorUpdateView(UpdateView):
     model = DeviceColor
     fields = ['name']
     template_name = 'store/devicecolor/devicecolor_form.html'
+    success_url = reverse_lazy('store:devicecolor_list')
+
+
+class DeviceColorDeleteView(DeleteView):
+    model = DeviceColor
+    template_name = 'store/devicecolor/devicecolor_confirm_delete.html'
     success_url = reverse_lazy('store:devicecolor_list')

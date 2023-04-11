@@ -5,6 +5,7 @@
   <p>Brand: {{ object.brand.name }}</p>
   <p>Manufacturer: {{ object.brand.manufacturer.name }}</p>
   <p>Model Series: {{ object.model_series }}</p>
-
+  <a href="{% url 'store:devicemodel_list' %}">Back to device model list</a>
   <a href="{% url 'store:devicemodel_update' object.pk %}">Edit</a>
+  <a href="{% url 'store:devicemodel_delete' object.pk %}">Delete</a>
 {% endblock %}
