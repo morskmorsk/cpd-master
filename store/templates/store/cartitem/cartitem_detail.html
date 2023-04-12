@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Cart Item: {{ object.cart }} - {{ object.product }}</h2>
+    <p>Quantity: {{ object.quantity }}</p>
+    <a href="{% url 'store:cartitem_update' object.pk %}">Edit Cart Item</a>
+    <a href="{% url 'store:cartitem_delete' object.pk %}">Delete Cart Item</a>
+{% endblock %}

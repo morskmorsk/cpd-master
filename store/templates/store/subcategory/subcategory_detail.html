@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Subcategory: {{ object.name }}</h2>
+    <p>Category: {{ object.category }}</p>
+    <p>Taxable: {{ object.taxable }}</p>
+    <a href="{% url 'store:subcategory_update' object.pk %}">Edit Subcategory</a>
+    <a href="{% url 'store:subcategory_delete' object.pk %}">Delete Subcategory</a>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Cart Items</h2>
+    <a href="{% url 'store:cartitem_create' %}">Add New Cart Item</a>
+    <ul>
+        {% for cartitem in object_list %}
+            <li>
+                <a href="{% url 'store:cartitem_detail' cartitem.pk %}">{{ cartitem.cart }} - {{ cartitem.product }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

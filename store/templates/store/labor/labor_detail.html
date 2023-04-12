@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Labor: {{ object.labor_vendor }}</h2>
+    <p>Department: {{ object.labor_department }}</p>
+    <p>Location: {{ object.labor_location }}</p>
+    <p>Date: {{ object.labor_date }}</p>
+    <p>Notes: {{ object.labor_notes }}</p>
+    <a href="{% url 'store:labor_update' object.pk %}">Edit Labor</a>
+    <a href="{% url 'store:labor_delete' object.pk %}">Delete Labor</a>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Shopping Carts</h2>
+    <a href="{% url 'store:shoppingcart_create' %}">Add New Shopping Cart</a>
+    <ul>
+        {% for shoppingcart in object_list %}
+            <li>
+                <a href="{% url 'store:shoppingcart_detail' shoppingcart.pk %}">{{ shoppingcart.user }} - {{ shoppingcart.product }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

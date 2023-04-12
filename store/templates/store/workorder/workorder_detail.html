@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Work Order: {{ object.workorder_device }}</h2>
+    <p>Vendor: {{ object.workorder_vendor }}</p>
+    <p>Department: {{ object.workorder_department }}</p>
+    <p>Location: {{ object.workorder_location }}</p>
+    <p>Date: {{ object.workorder_date }}</p>
+    <p>Notes: {{ object.workorder_notes }}</p>
+    <a href="{% url 'store:workorder_update' object.pk %}">Edit Work Order</a>
+    <a href="{% url 'store:workorder_delete' object.pk %}">Delete Work Order</a>
+{% endblock %}

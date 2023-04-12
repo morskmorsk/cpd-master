@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Product: {{ object.name }}</h2>
+    <p>Description: {{ object.description }}</p>
+    <!-- Add other product information as needed -->
+    <a href="{% url 'store:product_update' object.pk %}">Edit Product</a>
+    <a href="{% url 'store:product_delete' object.pk %}">Delete Product</a>
+{% endblock %}

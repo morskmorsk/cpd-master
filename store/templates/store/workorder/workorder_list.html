@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Work Orders</h2>
+    <a href="{% url 'store:workorder_create' %}">Add New Work Order</a>
+    <ul>
+        {% for workorder in object_list %}
+            <li>
+                <a href="{% url 'store:workorder_detail' workorder.pk %}">{{ workorder.workorder_device }} - {{ workorder.workorder_date }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

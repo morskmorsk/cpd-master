@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Labors</h2>
+    <a href="{% url 'store:labor_create' %}">Add New Labor</a>
+    <ul>
+        {% for labor in object_list %}
+            <li>
+                <a href="{% url 'store:labor_detail' labor.pk %}">{{ labor.labor_vendor }} - {{ labor.labor_date }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
