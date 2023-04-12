@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>{{ customuser.first_name }} {{ customuser.last_name }}</h1>
+
+  <p>Email: {{ customuser.email }}</p>
+  <p>City: {{ customuser.city }}</p>
+  <p>State: {{ customuser.state }}</p>
+  <!-- Add other fields as needed -->
+
+  <a href="{% url 'users_list' %}">Back to Custom User List</a> |
+  <a href="{% url 'users_update' customuser.pk %}">Edit Custom User</a> |
+  <a href="{% url 'users_delete' customuser.pk %}">Delete Custom User</a>
+{% endblock %}

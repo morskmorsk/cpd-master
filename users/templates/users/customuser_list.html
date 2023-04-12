@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Custom User List</h1>
+
+  <ul>
+    {% for customuser in customuser_list %}
+      <li><a href="{% url 'users_detail' customuser.pk %}">{{ customuser.first_name }} {{ customuser.last_name }}</a></li>
+    {% empty %}
+      <li>No users found.</li>
+    {% endfor %}
+  </ul>
+
+  <a href="{% url 'users_create' %}">Add a custom user</a>
+{% endblock %}
