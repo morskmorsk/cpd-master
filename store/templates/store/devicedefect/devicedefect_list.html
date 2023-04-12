@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Device Defects</h2>
+    <a href="{% url 'store:devicedefect_create' %}">Add New Device Defect</a>
+    <ul>
+        {% for devicedefect in object_list %}
+            <li>
+                <a href="{% url 'store:devicedefect_detail' devicedefect.pk %}">{{ devicedefect.defect_name }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

@@ -170,6 +170,10 @@ LABOR_RISK_CHOICES = (
     ('Too High', 'too high'),
 )
 # //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+TAXABLE_CHOICES = (
+    ('Yes', 'yes'),
+    ('No', 'no'),
+)
 
 
 class Manufacturer(models.Model):
@@ -290,12 +294,8 @@ class DeviceDefect(models.Model):
 
 class Department(models.Model):
     name = models.CharField(max_length=200)
-    taxable_choices = (
-        ('Yes', 'yes'),
-        ('No', 'no'),
-    )
     taxable = models.CharField(
-        max_length=3, choices=taxable_choices, default='yes')
+        max_length=3, choices=TAXABLE_CHOICES, default='yes')
 
     def __str__(self):
         return self.name
@@ -438,8 +438,8 @@ class WorkOrder(models.Model):
     employee = models.ForeignKey(
         CustomUser, on_delete=models.CASCADE,
         related_name='work_order_employee')
-    # device = models.ForeignKey(
-    #     Device, on_delete=models.CASCADE, related_name='work_order_device')
+    device = models.ForeignKey(
+        Device, on_delete=models.CASCADE, related_name='work_order_device', null=True, blank=True)
     work_order_status = models.CharField(
         max_length=25, choices=WORK_ORDER_STATUS_CHOICES, default='pending')
     price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
