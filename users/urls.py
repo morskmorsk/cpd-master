@@ -1,15 +1,9 @@
-# from django.urls import path
-# from . import api_views as views
-
-# urlpatterns = [
-#     path('users/', views.UserListCreateAPIView.as_view(),
-#          name='user_list_create'),
-#     path('users/<int:pk>/', views.UserRetrieveUpdateDestroyAPIView.as_view(),
-#          name='user_retrieve_update_destroy'),
-# ]
 from .api_views import CustomUserViewSet
 from rest_framework import routers
 from django.urls import include, path
+from .views import (CustomUserListView, CustomUserDetailView,
+                    CustomUserCreateView, CustomUserUpdateView,
+                    CustomUserDeleteView)
 
 router = routers.DefaultRouter()
 
@@ -20,4 +14,14 @@ urlpatterns = [
     path('api/v1/', include(router.urls)),
     path('api-auth/', include('rest_framework.urls',
                               namespace='rest_framework_home')),
+    path('', CustomUserListView.as_view(),
+         name='users_list'),
+    path('users_detail/<int:pk>/', CustomUserDetailView.as_view(),
+         name='users_detail'),
+    path('users_create/', CustomUserCreateView.as_view(),
+         name='users_create'),
+    path('users_update/<int:pk>/', CustomUserUpdateView.as_view(),
+         name='users_update'),
+    path('users_delete/<int:pk>/', CustomUserDeleteView.as_view(),
+         name='users_delete'),
 ]
