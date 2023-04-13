@@ -150,7 +150,7 @@ MEDIA_URL = '/media/'
 
 MEDIA_ROOT = BASE_DIR / 'static/media'
 
-LOGIN_REDIRECT_URL = '/store/customer'
+# LOGIN_REDIRECT_URL = '/store/customer'
 
 
 # Default primary key field type
@@ -160,7 +160,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Authentication
 LOGIN_URL = 'login'
-LOGIN_REDIRECT_URL = 'store'
+LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
 
 AUTH_USER_MODEL = 'users.CustomUser'
