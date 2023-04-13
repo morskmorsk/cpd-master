@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Locations</h1>
+    <a href="{% url 'store:location_create' %}">Add Location</a>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for location in object_list %}
+                <tr>
+                    <td>{{ location.name }}</td>
+                    <td>{{ location.address }}</td>
+                    <td>
+                        <a href="{% url 'store:location_detail' location.pk %}">View</a> |
+                        <a href="{% url 'store:location_update' location.pk %}">Edit</a> |
+                        <a href="{% url 'store:location_delete' location.pk %}">Delete</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

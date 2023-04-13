@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Departments</h1>
+    <a href="{% url 'store:department_create' %}">Add Department</a>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Taxable</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for department in object_list %}
+                <tr>
+                    <td>{{ department.name }}</td>
+                    <td>{{ department.taxable }}</td>
+                    <td>
+                        <a href="{% url 'store:department_detail' department.pk %}">View</a> |
+                        <a href="{% url 'store:department_update' department.pk %}">Edit</a> |
+                        <a href="{% url 'store:department_delete' department.pk %}">Delete</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Delete Device: {{ object.device_model }} - {{ object.device_color }}?</h1>
+    <p>Are you sure you want to delete this device?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Confirm Delete</button>
+    </form>
+    <a href="{% url 'store:device_list' %}">Back to Device List</a>
+{% endblock %}

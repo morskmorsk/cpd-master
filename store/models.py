@@ -422,16 +422,18 @@ class Device(models.Model):
 # //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+WORK_ORDER_STATUS_CHOICES = (
+    ('Pending', 'pending'),
+    ('In Progress', 'in progress'),
+    ('Completed', 'completed'),
+    ('آخر', 'آخر'),
+)
+
+
 class WorkOrder(models.Model):
 
     TAX_RATE = 0.09
 
-    order_status_choices = (
-        ('Pending', 'pending'),
-        ('In Progress', 'in progress'),
-        ('Completed', 'completed'),
-        ('آخر', 'آخر'),
-    )
     customer = models.ForeignKey(
         CustomUser, on_delete=models.CASCADE,
         related_name='work_order_Customer')

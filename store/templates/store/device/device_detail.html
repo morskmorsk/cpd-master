@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{{ object.device_model }} - {{ object.device_color }}</h1>
+    <p>Serial: {{ object.device_serial }}</p>
+    <!-- Add other fields as needed -->
+    <a href="{% url 'store:device_list' %}">Back to Device List</a>
+{% endblock %}

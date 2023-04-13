@@ -279,22 +279,22 @@ class DeviceDetailView(DetailView):
 
 class DeviceCreateView(CreateView):
     model = Device
-    fields = ['device_model', 'device_color', 'device_serial', 'device_imei',
-              'device_vendor', 'device_purchase_date', 'device_purchase_price',
-              'device_purchase_location', 'device_purchase_department',
-              'device_purchase_invoice', 'device_purchase_notes',
-              'device_defects']
+    fields = ['owner', 'department', 'location', 'device_model',
+              'color', 'carrier', 'imei', 'serial_number', 'vendor',
+              'seller', 'compatibility', 'cost', 'value', 'price',
+              'purchase_date', 'info', 'notes', 'report', 'device_defects',
+              'photo', 'status', 'grade']
     template_name = 'store/device/device_form.html'
     success_url = reverse_lazy('store:device_list')
 
 
 class DeviceUpdateView(UpdateView):
     model = Device
-    fields = ['device_model', 'device_color', 'device_serial', 'device_imei',
-              'device_vendor', 'device_purchase_date', 'device_purchase_price',
-              'device_purchase_location', 'device_purchase_department',
-              'device_purchase_invoice', 'device_purchase_notes',
-              'device_defects']
+    fields = ['owner', 'department', 'location', 'device_model',
+              'color', 'carrier', 'imei', 'serial_number', 'vendor',
+              'seller', 'compatibility', 'cost', 'value', 'price',
+              'purchase_date', 'info', 'notes', 'report', 'device_defects',
+              'photo', 'status', 'grade']
     template_name = 'store/device/device_form.html'
     success_url = reverse_lazy('store:device_list')
 
@@ -317,8 +317,8 @@ class WorkOrderDetailView(DetailView):
 
 class WorkOrderCreateView(CreateView):
     model = WorkOrder
-    fields = ['workorder_device', 'workorder_vendor', 'workorder_department',
-              'workorder_location', 'workorder_date', 'workorder_notes']
+    fields = ['customer', 'employee', 'device', 'work_order_status', 'price',
+              'discount', 'notes']
     template_name = 'store/workorder/workorder_form.html'
     success_url = reverse_lazy('store:workorder_list')
 
@@ -411,7 +411,7 @@ class SubcategoryDetailView(DetailView):
 
 class SubcategoryCreateView(CreateView):
     model = Subcategory
-    fields = ['name', 'category', 'taxable']
+    fields = ['name', 'category']
     template_name = 'store/subcategory/subcategory_form.html'
     success_url = reverse_lazy('store:subcategory_list')
 

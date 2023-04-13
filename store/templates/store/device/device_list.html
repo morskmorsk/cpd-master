@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Devices</h1>
+    <a href="{% url 'store:device_create' %}">Add Device</a>
+    <table>
+        <thead>
+            <tr>
+                <th>Device Model</th>
+                <th>Device Color</th>
+                <th>Device Serial</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for device in object_list %}
+                <tr>
+                    <td>{{ device.device_model }}</td>
+                    <td>{{ device.device_color }}</td>
+                    <td>{{ device.device_serial }}</td>
+                    <td>
+                        <a href="{% url 'store:device_detail' device.pk %}">View</a> |
+                        <a href="{% url 'store:device_update' device.pk %}">Edit</a> |
+                        <a href="{% url 'store:device_delete' device.pk %}">Delete</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
