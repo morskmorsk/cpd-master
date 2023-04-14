@@ -325,8 +325,8 @@ class WorkOrderCreateView(CreateView):
 
 class WorkOrderUpdateView(UpdateView):
     model = WorkOrder
-    fields = ['workorder_device', 'workorder_vendor', 'workorder_department',
-              'workorder_location', 'workorder_date', 'workorder_notes']
+    fields = ['customer', 'employee', 'device', 'work_order_status', 'price',
+              'discount', 'notes']
     template_name = 'store/workorder/workorder_form.html'
     success_url = reverse_lazy('store:workorder_list')
 
@@ -349,16 +349,14 @@ class LaborDetailView(DetailView):
 
 class LaborCreateView(CreateView):
     model = Labor
-    fields = ['labor_vendor', 'labor_department',
-              'labor_location', 'labor_date', 'labor_notes']
+    fields = ['labor_name', 'labor_price', 'labor_description', 'labor_risk']
     template_name = 'store/labor/labor_form.html'
     success_url = reverse_lazy('store:labor_list')
 
 
 class LaborUpdateView(UpdateView):
     model = Labor
-    fields = ['labor_vendor', 'labor_department',
-              'labor_location', 'labor_date', 'labor_notes']
+    fields = ['labor_name', 'labor_price', 'labor_description', 'labor_risk']
     template_name = 'store/labor/labor_form.html'
     success_url = reverse_lazy('store:labor_list')
 
@@ -381,14 +379,14 @@ class CategoryDetailView(DetailView):
 
 class CategoryCreateView(CreateView):
     model = Category
-    fields = ['name', 'taxable']
+    fields = ['name']
     template_name = 'store/category/category_form.html'
     success_url = reverse_lazy('store:category_list')
 
 
 class CategoryUpdateView(UpdateView):
     model = Category
-    fields = ['name', 'taxable']
+    fields = ['name']
     template_name = 'store/category/category_form.html'
     success_url = reverse_lazy('store:category_list')
 
@@ -418,7 +416,7 @@ class SubcategoryCreateView(CreateView):
 
 class SubcategoryUpdateView(UpdateView):
     model = Subcategory
-    fields = ['name', 'category', 'taxable']
+    fields = ['name', 'category']
     template_name = 'store/subcategory/subcategory_form.html'
     success_url = reverse_lazy('store:subcategory_list')
 
@@ -471,16 +469,22 @@ class ProductDetailView(DetailView):
 
 class ProductCreateView(CreateView):
     model = Product
-    fields = ['name', 'description', 'sku', 'category',
-              'subcategory', 'tags', 'price', 'taxable', 'inventory', 'image']
+    fields = ['name', 'description', 'sku', 'cost', 'category',
+              'subcategory', 'price', 'department', 'location', 'vendor',
+              'manufacturer', 'onhand_quantity', 'min_stock_threshold',
+              'max_stock_threshold', 'tags', 'is_featured', 'sale_start',
+              'sale_end', 'notes', 'status', 'photo', 'url', 'ms_url']
     template_name = 'store/product/product_form.html'
     success_url = reverse_lazy('store:product_list')
 
 
 class ProductUpdateView(UpdateView):
     model = Product
-    fields = ['name', 'description', 'sku', 'category',
-              'subcategory', 'tags', 'price', 'taxable', 'inventory', 'image']
+    fields = ['name', 'description', 'sku', 'cost', 'category',
+              'subcategory', 'price', 'department', 'location', 'vendor',
+              'manufacturer', 'onhand_quantity', 'min_stock_threshold',
+              'max_stock_threshold', 'tags', 'is_featured', 'sale_start',
+              'sale_end', 'notes', 'status', 'photo', 'url', 'ms_url']
     template_name = 'store/product/product_form.html'
     success_url = reverse_lazy('store:product_list')
 
@@ -503,14 +507,16 @@ class ShoppingCartDetailView(DetailView):
 
 class ShoppingCartCreateView(CreateView):
     model = ShoppingCart
-    fields = ['user', 'product', 'quantity']
+    fields = ['customer', 'cashier', 'subtotal', 'discount', 'status',
+              'notes', 'ordered']
     template_name = 'store/shoppingcart/shoppingcart_form.html'
     success_url = reverse_lazy('store:shoppingcart_list')
 
 
 class ShoppingCartUpdateView(UpdateView):
     model = ShoppingCart
-    fields = ['user', 'product', 'quantity']
+    fields = ['customer', 'cashier', 'subtotal', 'discount', 'status',
+              'notes', 'ordered']
     template_name = 'store/shoppingcart/shoppingcart_form.html'
     success_url = reverse_lazy('store:shoppingcart_list')
 
@@ -533,14 +539,14 @@ class CartItemDetailView(DetailView):
 
 class CartItemCreateView(CreateView):
     model = CartItem
-    fields = ['cart', 'product', 'quantity']
+    fields = ['shopping_cart', 'product', 'quantity']
     template_name = 'store/cartitem/cartitem_form.html'
     success_url = reverse_lazy('store:cartitem_list')
 
 
 class CartItemUpdateView(UpdateView):
     model = CartItem
-    fields = ['cart', 'product', 'quantity']
+    fields = ['shopping_cart', 'product', 'quantity']
     template_name = 'store/cartitem/cartitem_form.html'
     success_url = reverse_lazy('store:cartitem_list')
 
